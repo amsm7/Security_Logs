@@ -1,12 +1,12 @@
+import random
+
 import pandas as pd
 import numpy as np
 
 
 class SecurityLogs:
-    count = 0
 
     def __init__(self, df):
-        print(SecurityLogs.count)
         self.df = df
 
     def original_data_frame(self):
@@ -59,95 +59,133 @@ class SecurityLogs:
         print("------------------------------------------------------------------------------")
         print(self.df.head(20))
 
-    def new_data_frame(self):
-        """Step 6: Creating new Data frame """
+    @staticmethod
+    def new_data_frame(new_df):
+        """Step 6: Creating new Data frame and print it. """
 
         print(SecurityLogs.new_data_frame.__doc__)
         print("------------------------------------------------------------------------------")
+        print(new_df.head(20))
+
+    def mapping_event_code(self, df_2):
+        """ Step 7: Mapping new data frame values.
+         1. 'Mapping correct  'Event Code' column values from the new data frame,
+          instead of the original wrong values, that matches to their 'Event Type' value."""
+
+        self.df.loc[self.df['Event Type'] == df_2['Event Type'][0], 'Event Code'] = df_2['Event Code'][0]
+        self.df.loc[self.df['Event Type'] == df_2['Event Type'][1], 'Event Code'] = df_2['Event Code'][1]
+        self.df.loc[self.df['Event Type'] == df_2['Event Type'][2], 'Event Code'] = df_2['Event Code'][2]
+
+        print(SecurityLogs.mapping_event_code.__doc__)
+        print("------------------------------------------------------------------------------")
         print(self.df.head(20))
 
-    """ Step 7: Merge new data frame with the original according to same columns. """
+    def mapping_action(self, df_2):
+        """ Step 8: Mapping new data frame values.
+         1. 'Mapping correct 'Action' column values from the new data frame,
+          instead of the original wrong values, that matches to their 'Event Code' value."""
 
-    def merge_data_frames(self, df_2):
-        #self.df[self.df['EmployeeName'] == 'JOSEPH DRISCOLL']['JobTitle']
-        #for i in range(len(self.df)):
-          #  print([self.df['Event Type'].values[i] == 'Wrong Password')]
+        self.df.loc[self.df['Event Code'] == df_2['Event Code'][0], 'Action'] = df_2['Action'][0]
+        self.df.loc[self.df['Event Code'] == df_2['Event Code'][1], 'Action'] = df_2['Action'][1]
+        self.df.loc[self.df['Event Code'] == df_2['Event Code'][2], 'Action'] = df_2['Action'][2]
 
-
+        print(SecurityLogs.mapping_action.__doc__)
+        print("------------------------------------------------------------------------------")
         print(self.df.head(20))
-
-    """ Step 8: Add 'Date' column with date ranges of the events. """
 
     def fill_date(self):
+        """ Step 9: Add 'Date' column with date ranges of the events. """
         random_dates = np.array(pd.date_range('2022/11/01', '2022/11/30'))
-        self.df["Date"] = np.random.choice(random_dates, len(self.df))
+
+        # self.df.assign(Date = random_dates )
+        self.df.loc[:, 'Date'] = random_dates
+        # self.df["Date"] = np.random.choice(random_dates, len(self.df))
+
+        print(SecurityLogs.fill_date.__doc__)
+        print("------------------------------------------------------------------------------")
         print(self.df.head(20))
 
     def printing_specific_column(self):
-        print()
+        """ Step 10: Printing specific column the user will choose
+            and counting and printing each value in it."""
+
+        print("------------------------------------------------------------------------------")
+        print(SecurityLogs.printing_specific_column.__doc__)
+        print(" --------------------------------------------------")
+
+        count = 4
         titles = list(self.df.columns.values)
         for val in titles:
-            print(f" '{val}'. ")
-        input_title = input("Write your column you want to see from the list.")
+            print(f"{val}. ")
+        print(" --------------------------------------------------")
+        input_title = input("Enter the column you wish to see from the list: \n\n")
         while input_title not in titles:
-            input_title = input("You must insert only valid columns,try again please.\n")
-        print(self.df[input_title])
-        print(self.df['Date'])
+            if count > 0:
+                print(f"You have {count} more tries.")
+                input_title = input("Please try again :\n")
+                count -= 1
+            else:
+                exit("too many tries, run the program again.")
 
-    def replace_values(self):
-        self.df.fillna(130, inplace=True)
+        print(self.df[input_title].head(50))
 
-    def time_stamp(self):
-        pass
-
-
-    def fill_alert_type(self):
-        pass
-
-    def fill_action(self):
-        pass
-
-    def count_reasons(self):
-        print(self.df['Reason'].value_counts())
-
-    def info(self):
-        print("Info.\n")
-        info = self.df.info()
-        print(f"{info} \n")
-
-    def describe(self):
-        """Describe method"""
-        print("Describe.\n")
-        desc = self.df.describe()
-        print(f"{desc} \n")
-
-    def casting(self):
-        """Cast method"""
-        print("Casting.\n")
-        desc_cast = self.df.describe().astype('int')
-        print(f"{desc_cast} \n")
-
+        print(f"\n# of values for each column member.")
+        print(" --------------------------------------------------")
+        print(self.df[input_title].value_counts())
 
     def adding_spec_column(self):
-        """Adding column at specific place in the table."""
-        print("Adding a column to the table, at a specific position.\n")
-        self.df.insert(0, "User", 'Not available')
-        print(f"{self.df} \n")
+        """ Step 11: Adding a column to the table, at a specific and random position
+          ** We added the 'Check' column and 'to remove' values in it. """
+
+        rand_num = random.randint(0, (len(self.df.columns) - 1))
+        self.df.insert(rand_num, 'Check', 'to remove')
+
+        print("------------------------------------------------------------------------------")
+        print(SecurityLogs.adding_spec_column.__doc__)
+        print("------------------------------------------------------------------------------")
+        print(f"Added a column at index # {rand_num}.\n")
+        print(f"{self.df.head(20).to_string()} \n")
 
     def removing_column(self):
-        print("Removing Columns in the table.\n")
-        self.df.drop(['User', 'Time'], axis=1, inplace=True)
-        print(f"{self.df} \n")
+        """ Step 12: Removing column at specific place in the table. """
 
-    def terms(self):
-        """Add some basic terms to out data."""
-        print("Add some basic terms to our data.\n")
-        self.df['Red Alert**'] = \
-            np.where(self.df['TotalEvents'] >= 2000, True, False)
-        print(f"{self.df} \n")
+        print("Removing Columns in the table.\n")
+        self.df.drop(['Check'], axis=1, inplace=True)
+
+        print("------------------------------------------------------------------------------")
+        print(SecurityLogs.removing_column.__doc__)
+        print("------------------------------------------------------------------------------")
+        print(f"{self.df.head(20).to_string()} \n")
+
+    def info(self):
+        """ Step 13: Showing the info of all columns in the data frame  . """
+
+        print(SecurityLogs.info.__doc__)
+        print("------------------------------------------------------------------------------")
+        print(f"{self.df.info()} \n")
+
+    def add_alert_column(self):
+        """ Step 14:  Add new column to the data frame. .
+        Adding 'Alert ** column which will categorize alert base on # of events in 'Total Events' column."""
+
+        # self.df['Total Events'] = self.df['Total Events'] - 1000
+
+        self.df['Alert**'] = ['Red Alert' if val > 1500 else 'Orange Alert' if 500 <= val < 1499 else
+        'Yellow Alert' for val in self.df['Total Events']]
+
+        print(SecurityLogs.add_alert_column.__doc__)
+        print("------------------------------------------------------------------------------")
+        print(f"{self.df.head(20).to_string()} \n")
+
+    def describe(self):
+        """ Step 15: Describe  . """
+
+        print(SecurityLogs.describe.__doc__)
+        print("------------------------------------------------------------------------------")
+        print(f"{self.df.describe().astype('int')} \n")
 
     def save_to_csv(self):
-        self.df.to_csv('my_df.csv', index=False)
+        self.df.to_csv('my_df.csv', encoding='utf-8', index=False)
 
 # security_log['Total_ev'] = pd.cut(security_log.TotalEvents, ranges, labels=names)
 # print(f"{security_log} \n")
