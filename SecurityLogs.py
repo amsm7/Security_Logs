@@ -187,5 +187,4 @@ class SecurityLogs:
     def save_to_csv(self):
         self.df.to_csv('my_df.csv', encoding='utf-8', index=False)
 
-# security_log['Total_ev'] = pd.cut(security_log.TotalEvents, ranges, labels=names)
-# print(f"{security_log} \n")
+
