@@ -1,37 +1,62 @@
-# All rights reserved - Amir Sillam --> November - December 2022
-
-from ProgramOptions import ProgramOptions
-from Menus import Menus
+from termcolor import colored
 import pandas as pd
 import numpy as np
 
+class Menus:
 
-def run_program(df):
+    def __init__(self):
+        pass
 
-    input_obj = Menus()
-    input_obj.instructions_menu()
-    input_obj.options_menu()
+    @staticmethod
+    def menu_input():
+        """ User menu input."""
+        message_start ='Run the show!'
+        print("---------------------------------------------------")
+        print(f"Opening message is: {message_start}  ")
+        print("---------------------------------------------------")
+        user_input =input(colored(" Please enter c-o-r-r-e-c-t-l-y the 'Opening message' ", 'green'))
+        count = 1
+        while user_input != message_start:
+            if count > 4:
+                print(f"You have tried {count} times, that's the limit.")
+                exit("Try again next time, Thank you.")
+            count += 1
+            print("Look for the 'opening message' at the beginning of the program.")
+            user_input = input(colored("Please enter the 'Opening message' ", 'green'))
 
-    user_input = input_obj.menu_input()
+        return 1
 
-    df_obj = ProgramOptions(df)
-    df_obj.user_option(user_input)
+    @staticmethod
+    def options_menu():
+        print("\n ------- Security------Logs----By--Amir--Sillam---- \n"
+                      "                                                                              \n"
+                      " 1. Show original Data Frame.                         \n"
+                      " 2. Make Data Frame messy (not messi :) )  \n"
+                      " 3. Filling every 'NaN' values with 'dump!' string type value.                \n"
+                      " 4. Deleting every 'dump!' value from 'Event Type' column.              \n"
+                      " 5. Deleting every negative value from 'Total Events' column. \n"
+                      " 6. Create new Data frame. \n"
+                      " 7. Merge new data frame with the original according to same columns.          \n"
+                      " 8. Fill new columns with new and correct values.        \n"
+                      " 9. Return the host with the most events and type. \n"
+                      " 10.Count the total of each 'Event Type'  log. \n"
+                      " 11.End program.                                                    \n"
+                      " 12.End program.                                                    \n"
+                      " 13.End program.                                                    \n"
+                      " 14.End program.                                                    \n"
+                      " 15.End program.                                                    \n"
+                      "---------------------------------------------------------------------")
 
-
-def creating_data_frame():
-    """ Creating new Data frame with just column names. """
-    data_frame = pd.DataFrame(
-        columns=['Host', 'Event Type', 'Total Events'])
-
-    """Creating 2 NumPy arrays"""
-    hosts = np.array(['host1', 'host2', 'host3', 'host4', 'host5', 'host6', 'host7', 'host8', 'host9', 'host10'])
-    event_type = np.array(['Wrong Password', 'Invalid User', "'Long' Login", None])
-
-    """Filling the data frame with different data types."""
-    data_frame['Host'] = np.random.choice(hosts, 10000)
-    data_frame['Event Type'] = np.random.choice(event_type, 10000)
-    data_frame['Total Events'] = np.random.randint(0, 3000, 10000)
-    run_program(data_frame)
-
-
-creating_data_frame()
+    @staticmethod
+    def instructions_menu():
+        # Print menu message.
+        print(" -------------------------------------------- \n "
+        " ** Program instructions ** \n"
+              "In this program, the user will see data frame\n"
+              "with 'Nan' values, making data frame\n"
+              "unorganized, with missing values.\n"
+              "The Program will remove 'wrong' \n"
+              "values and fill the data frame with new ones.\n"
+              "Then we will make many kinds of manipulation,\n"
+              "With our complete and interesting data.  Enjoy the ride :)\n"
+              "-------------------------------------------- ")
