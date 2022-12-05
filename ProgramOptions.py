@@ -9,20 +9,24 @@ class ProgramOptions:
 
     @staticmethod
     def create_new_df():
+        """Creating new data frame."""
+
         new_data = [['Wrong Password', '#50768', "Add to 'pass.log' file."],
                     ['Invalid User', '#30667', "Add to 'user.log' file."],
                     ["'Long' Login", '#40834', 'Block user for 15 minutes.']]
         data_frame2 = pd.DataFrame(new_data,
                                    columns=['Event Type', 'Event Code', 'Action'])
         return data_frame2
-        # future columns = [ 'Event Code', 'Alert type', 'Date','Time', 'Action'])
 
     def user_option(self, user_input):
-        new_df = SecurityLogs(self.df)
+        """Check user input and call to certain functions according to it."""
+
+        SecurityLogs.quick_note()
+        new_df = SecurityLogs(self.df.copy())
         new_df2 = ProgramOptions.create_new_df()
-        # Check user input and call to certain functions according to it.
-        while user_input <= 16:
-            print("---------------------------------")
+        while user_input <= 17:
+            self.check_user_awareness(user_input)
+            print("------------------------------------------")
             print(f"Entered step # {user_input}")
             if user_input == 1:
                 SecurityLogs.original_data_frame(new_df)
@@ -37,35 +41,37 @@ class ProgramOptions:
             elif user_input == 6:
                 SecurityLogs.new_data_frame(new_df2)
             elif user_input == 7:
-                ProgramOptions.create_new_df()
                 SecurityLogs.mapping_event_code(new_df, new_df2)
             elif user_input == 8:
                 SecurityLogs.mapping_action(new_df, new_df2)
             elif user_input == 9:
-                SecurityLogs.fill_date(new_df)
+                SecurityLogs.switching_columns(new_df)
             elif user_input == 10:
-                SecurityLogs.printing_specific_column(new_df)
+                SecurityLogs.removing_duplicate_rows(new_df)
             elif user_input == 11:
-                SecurityLogs.adding_spec_column(new_df)
+                SecurityLogs.printing_specific_column(new_df)
             elif user_input == 12:
-                SecurityLogs.removing_column(new_df)
+                SecurityLogs.adding_spec_column(new_df)
             elif user_input == 13:
-                SecurityLogs.info(new_df)
+                SecurityLogs.removing_spec_column(new_df)
             elif user_input == 14:
                 SecurityLogs.add_alert_column(new_df)
             elif user_input == 15:
-                SecurityLogs.describe(new_df)
+                SecurityLogs.info(new_df)
             elif user_input == 16:
+                SecurityLogs.describe(new_df)
+            elif user_input == 17:
                 SecurityLogs.save_to_csv(new_df)
             user_input += 1
-            self.check_user_awareness(user_input)
 
         exit("Thank U very much for being with us!")
 
     @staticmethod
     def check_user_awareness(check_input):
+        """Checking user input"""
+
         tries = 4
-        print(" --------------------------------------------------")
+        print("------------------------------------------")
         check_user = input("Are you ready to step # ")
         while int(check_user) != check_input:
             if tries != 0:
@@ -77,5 +83,3 @@ class ProgramOptions:
                 print("You are with use or not ?")
                 print(f"You have tried {tries + 5} times, that's the limit.")
                 exit("Try again next time, Thank you.")
-
-
