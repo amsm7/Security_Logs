@@ -8,6 +8,10 @@ class ProgramOptions:
         self.df = df
 
     @staticmethod
+    def end_program():
+        exit("Thank U very much for being with us!")
+
+    @staticmethod
     def create_new_df():
         """Creating new data frame."""
 
@@ -31,7 +35,7 @@ class ProgramOptions:
             if user_input == 1:
                 SecurityLogs.original_data_frame(new_df)
             elif user_input == 2:
-                SecurityLogs.mix_data(new_df)
+                SecurityLogs.create_and_mix_data(new_df)
             elif user_input == 3:
                 SecurityLogs.filling_nulls(new_df)
             elif user_input == 4:
@@ -57,14 +61,16 @@ class ProgramOptions:
             elif user_input == 14:
                 SecurityLogs.add_alert_column(new_df)
             elif user_input == 15:
-                SecurityLogs.info(new_df)
-            elif user_input == 16:
                 SecurityLogs.describe(new_df)
+            elif user_input == 16:
+                SecurityLogs.info(new_df)
             elif user_input == 17:
                 SecurityLogs.save_to_csv(new_df)
             user_input += 1
 
-        exit("Thank U very much for being with us!")
+        print(" \n# All rights reserved - Amir Sillam --> November - December 2022 \n")
+        print("Hope you enjoyed our program !")
+        ProgramOptions.end_program()
 
     @staticmethod
     def check_user_awareness(check_input):
