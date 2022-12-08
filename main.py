@@ -5,9 +5,11 @@ from Menus import Menus
 import pandas as pd
 import numpy as np
 
-def run_program(df):
 
+def run_program(df):
     input_obj = Menus()
+
+    input_obj.program_description()
     input_obj.instructions_menu()
     input_obj.options_menu()
 
@@ -21,7 +23,6 @@ def creating_data_frame():
     """ Creating new Data frame with just column names. """
     data_frame = pd.DataFrame(
         columns=['Host', 'Event Type', 'Total Events', 'Date'])
-
 
     """Creating 3 NumPy arrays"""
     hosts = np.array(['host1', 'host2', 'host3', 'host4', 'host5',
