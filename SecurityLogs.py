@@ -1,6 +1,5 @@
 import random
 import numpy as np
-import pandas as pd
 
 
 class SecurityLogs:
@@ -19,12 +18,12 @@ class SecurityLogs:
         print("------------------------------------------------------------------------------------------------------")
 
     def original_data_frame(self):
-        """Step 1: Showing the first 20 rows of the original data frame."""
+        """Step 1: Showing the first 30 rows of the original data frame."""
         print(SecurityLogs.original_data_frame.__doc__)
         print("------------------------------------------------------------------------------------")
         print(self.df.head(30))
 
-    def mix_data(self):
+    def create_and_mix_data(self):
         """Step 2: Creating and mixing new and wrong formats of data.
          1. Creating and filling new 'Event Code' column with random values, instead of unique ones.
          2. Creating and filing new 'Action' column with wrong data types.
@@ -38,18 +37,19 @@ class SecurityLogs:
 
         self.df['Total Events'] = self.df['Total Events'] - 1000
 
-        print(SecurityLogs.mix_data.__doc__)
+        print(SecurityLogs.create_and_mix_data.__doc__)
         print("-------------------------------------------------------------------------"
               "-----------------------------------------------------------------------")
         print(self.df.head(30))
 
     def filling_nulls(self):
-        """Step 3: Filling  'None' Values with 'dump!' value."""
+        """Step 3: Filling  'NaN' Values with 'dump!' value."""
 
         self.df.fillna('dump!', inplace=True)
 
         print(SecurityLogs.filling_nulls.__doc__)
-        print("-------------------------------------------------------------------------------------------------------------")
+        print("--------------------------------------------------------"
+              "-----------------------------------------------------")
         print(self.df.head(30))
 
     def delete_values(self):
@@ -57,7 +57,8 @@ class SecurityLogs:
 
         self.df.drop(self.df.index[self.df['Event Type'] == 'dump!'], inplace=True)
         print(SecurityLogs.delete_values.__doc__)
-        print("------------------------------------------------------------------------------------------------------------------")
+        print("---------------------------------------------------------"
+              "---------------------------------------------------------")
         print(self.df.head(30))
 
     def delete_negatives(self):
@@ -78,8 +79,8 @@ class SecurityLogs:
 
     def mapping_event_code(self, df_2):
         """Step 7: Mapping new data frame values.
-         1. 'Mapping correct  'Event Code' column values from the new data frame,
-          instead of the original wrong values, that matches to their 'Event Type' value."""
+         1. 'Mapping correct 'Event Code' column values from the new data frame,
+          that matches to their 'Event Type' value, instead of the original wrong values ."""
 
         self.df.loc[self.df['Event Type'] == df_2['Event Type'][0], 'Event Code'] = df_2['Event Code'][0]
         self.df.loc[self.df['Event Type'] == df_2['Event Type'][1], 'Event Code'] = df_2['Event Code'][1]
@@ -103,7 +104,7 @@ class SecurityLogs:
         print(self.df.head(30).to_string())
 
     def switching_columns(self):
-        """Step 9: Switch columns positions in the data frame """
+        """Step 9: Switch columns positions in the data frame. """
         event_code_column = self.df.pop('Event Code')
         self.df.insert(2, 'Event Code', event_code_column)
 
@@ -129,8 +130,8 @@ class SecurityLogs:
         print("---------------------------------------------------")
 
     def printing_specific_column(self):
-        """Step 11: Printing specific column the user will choose,
-            counting and printing each value in it."""
+        """Step 11: Showing specific column that the user will choose,
+            counting and showing each value in it."""
 
         print("---------------------------------------------------------------------------------------------")
         print(SecurityLogs.printing_specific_column.__doc__)
@@ -194,34 +195,31 @@ class SecurityLogs:
                       (self.df['Total Events'] < 500)]
 
         alerts = ["Red alert", "Orange alert", "Yellow alert"]
-        self.df['Alert'] = np.select(conditions, alerts).copy()
+        self.df['Alert'] = np.select(conditions, alerts)
 
         print(SecurityLogs.add_alert_column.__doc__)
         print("------------------------------------------------------------------------------")
         print(f"{self.df.head(30).to_string()} \n")
 
+    def describe(self):
+        """Step 15: Showing statistical description of every columns in
+          in the Data frame, only  if it contains a numerical data. """
+
+        print(SecurityLogs.describe.__doc__)
+        print("------------------------------------------------------------------------------")
+        print(f"{self.df.describe().astype('int')} \n")
+
     def info(self):
-        """Step 15: Showing the info of all columns in the data frame  . """
+        """Step 16: Showing the info of all columns in the data frame. """
 
         print(SecurityLogs.info.__doc__)
         print("------------------------------------------------------------------------------")
         print(f"{self.df.info()} \n")
         pass
 
-    def describe(self):
-        """Step 16: Describe  . """
-
-        print(SecurityLogs.describe.__doc__)
-        print("------------------------------------------------------------------------------")
-        print(f"{self.df.describe().astype('int')} \n")
-
     def save_to_csv(self):
-        """Step 17: Saving the updated data frame to CSV file.  . """
+        """Step 17: Saving the updated data frame to a CSV file."""
         self.df.to_csv('my_df.csv', encoding='utf-8', index=False)
         print(SecurityLogs.save_to_csv.__doc__)
 
-
         print("------------------------------------------------------------------------------")
-
-# security_log['Total_ev'] = pd.cut(security_log.TotalEvents, ranges, labels=names)
-# print(f"{security_log} \n")
