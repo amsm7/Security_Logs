@@ -11,15 +11,18 @@ class Menus:
         print("---------------------------------------------------")
         print(f"Opening message is: {message_start}  ")
         print("---------------------------------------------------")
-        user_input = input(" Please enter c-o-r-r-e-c-t-l-y the 'Opening message' ")
+        user_input = input("Please enter c-o-r-r-e-c-t-l-y the 'Opening message': ")
         count = 1
         while user_input != message_start:
             if count > 4:
                 print(f"You have tried {count} times, that's the limit.")
                 exit("Try again next time, Thank you.")
-            count += 1
+
             print("Look for the 'opening message' at the beginning of the program.")
-            user_input = input("Please enter the 'Opening message' ")
+            print(f"You have {5-count} more tries.")
+            print(f"-------------------------------------------------")
+            count += 1
+            user_input = input("Please enter the 'Opening message': ")
 
         return 1
 
