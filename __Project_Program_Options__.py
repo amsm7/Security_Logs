@@ -78,14 +78,15 @@ class ProgramOptions:
 
         tries = 4
         print("------------------------------------------")
-        check_user = input("Are you ready to step # ")
-        while int(check_user) != check_input:
+        check_user = input("Are you ready to step #\n")
+        while check_user != str(check_input):
             if tries != 0:
                 print(f"You have {tries} more tries.")
+                print("You are with use or not ?")
+                print(f"-------------------------------------------------")
                 check_user = input("Please try again :\n")
                 tries -= 1
             else:
                 print("That was your last try.")
-                print("You are with use or not ?")
                 print(f"You have tried {tries + 5} times, that's the limit.")
                 exit("Try again next time, Thank you.")
